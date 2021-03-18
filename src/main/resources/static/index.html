@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <script src="./jquery-3.5.1.min.js"></script>
+<!--    <script src="./Cesium-1.78/Build/Cesium/Cesium.js"></script>-->
+    <script src="http://static.igali.xyz/cesium-1.7.4/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+<h1>Cesium坐标转换</h1>
+<form>
+    <table>
+        <thead>
+        <tr><h2>经纬度转笛卡尔</h2></tr>
+        <tr><h3>Cesium.Cartesian3.fromDegrees (longitude, latitude, height , ellipsoid , result )</h3></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>经度(longitude):<input id="lon1" type="text" placeholder="请输入经度"/></td>
+        </tr>
+        <tr>
+            <td>经度(latitude):<input id="lat1" type="text" placeholder="请输入纬度"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="btn1" value="generate"></td>
+        </tr>
+        <tr>
+            <td><span id="result1"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<form>
+    <table>
+        <thead>
+        <tr><h2>笛卡尔转经纬度</h2></tr>
+        <tr><h3>var cartographic = Cesium.Cartographic.fromCartesian(cartesian);</h3></tr>
+        <tr><h3>var lon = Cesium.Math.toDegrees(cartographic.longitude);</h3></tr>
+        <tr><h3>var lat = Cesium.Math.toDegrees(cartographic.latitude);</h3></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>X:<input id="cartX" type="text" placeholder="Cartesian3.x"/></td>
+        </tr>
+        <tr>
+            <td>Y:<input id="cartY" type="text" placeholder="Cartesian3.y"/></td>
+        </tr>
+        <tr>
+            <td>Z:<input id="cartZ" type="text" placeholder="Cartesian3.z"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="btn2" value="generate"></td>
+        </tr>
+        <tr>
+            <td><span id="result2"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<form>
+    <table>
+        <thead>
+        <tr><h2>经纬度转弧度</h2></tr>
+        <tr><h3>var cartographic = Cesium.Cartographic.fromCartesian(cartesian);</h3></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>经度(longitude):<input id="lon3" type="text" placeholder="请输入经度"/></td>
+        </tr>
+        <tr>
+            <td>经度(latitude):<input id="lat3" type="text" placeholder="请输入纬度"/></td>
+        </tr>
+        <tr>
+            <td>高度(latitude):<input id="height3" type="text" placeholder="请输入纬度"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="btn3" value="generate"></td>
+        </tr>
+        <tr>
+            <td><span id="result3"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<script>
+    (function () {
+        $("#btn1").click(function () {
+            var lon = $("#lon1").val();
+            var lat = $("#lat1").val();
+            if (!lon||!lat){
+                // alert("请输入坐标");
+                return;
+            }
+            lon = Number(lon);
+            lat = Number(lat);
+
+            var cartesian = new Cesium.Cartesian3.fromDegrees(lon, lat);
+            $("#result1").text(cartesian);
+        });
+        $("#btn2").click(function () {
+            var x = $("#cartX").val();
+            var y = $("#cartY").val();
+            var z = $("#cartZ").val();
+            if (!x || !y || !z) {
+                // alert("请输入坐标");
+                return;
+            }
+            var cartographic = Cesium.Cartographic.fromCartesian(new Cesium.Cartesian3(x, y, z));
+            var lon = Cesium.Math.toDegrees(cartographic.longitude);
+            var lat = Cesium.Math.toDegrees(cartographic.latitude);
+            var elev = cartographic.height;
+            $("#result2").text(lon + "," + lat + "," + elev);
+        });
+        $("#btn3").click(function () {
+            var lon3 = $("#lon3").val();
+            var lat3 = $("#lat3").val();
+            var hei3 = $("#height3").val();
+            if (!hei3) {
+                hei3 = 0;
+            }
+            if (!lon3 || !lat3) {
+                // alert("请输入坐标");
+                return;
+            }
+            var cartesian3 = new Cesium.Cartesian3.fromDegrees(Number(lon3), Number(lat3), Number(hei3));
+            var cartographic3 = Cesium.Cartographic.fromCartesian(cartesian3);
+            var longitude3 = cartographic3.longitude;
+            var latitude3 = cartographic3.latitude;
+            var height3 = cartographic3.height;
+            $("#result3").text(longitude3 + "," + latitude3 + "," + height3);
+        })
+
+    })()
+</script>
+</body>
+</html>
