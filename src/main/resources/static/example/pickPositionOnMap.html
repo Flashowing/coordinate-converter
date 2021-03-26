@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+
+    <link rel="stylesheet" href="http://static.igali.xyz/cesium-1.7.4/Build/Cesium/Widgets/widgets.css">
+    <link rel="stylesheet" href="http://static.igali.xyz/cesium-1.7.4/Apps/Sandcastle/templates/bucket.css">
+    <script type="text/javascript" src="../jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="http://static.igali.xyz/cesium-1.7.4/Build/Cesium/Cesium.js"></script>
+    <script type="text/javascript"
+            src="http://static.igali.xyz/cesium-1.7.4/Apps/Sandcastle/Sandcastle-header.js"></script>
+</head>
+
+<body class="sandcastle-loading" data-sandcastle-bucket="bucket-requirejs.html">
+<style>
+</style>
+<div id="cesiumContainer" class="fullSize"></div>
+<div id="toolbar"></div>
+<script id="cesium_sandcastle_script">
+    Cesium.Ion.defaultAccessToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YWJlYzNkNS0yY2M0LTQxZWQtOGZhNi05MjEzYmVmZGVkNTkiLCJpZCI6MzU1NTEsImlhdCI6MTYwNDYyNzY2NH0.JxhQQxEvJTrmeARILcywKaPoPEPjO1RlqL28CRjktx8';
+    var viewer = new Cesium.Viewer("cesiumContainer", {
+        homeButton: true, //主页按钮
+        baseLayerPicker: false, //是否显示图层选择控件
+        navigationHelpButton: false, //帮助信息按钮
+        geocoder: true, //是否显示地名查找控件
+        infoBox: true, //是否显示点击要素之后显示的信息
+        fullscreenButton: false, //是否显示全屏按钮
+        timeline: false, //是否显示时间线控件
+        animation: false, //是否显示动画控件
+        sceneModePicker: true, //是否显示投影方式控件
+        selectionIndicator: true, // 取消点击有绿框
+        shouldAnimate: true, //允许动画
+        sceneModePicker: false, //是否显示3D/2D选择器
+        navigationInstructionsInitiallyVisible: false,
+        // navigation: false,
+        scene3DOnly: true, //如果设置为true，则所有几何图形以3D模式绘制以节约GPU资源
+        terrainProvider: Cesium.createWorldTerrain(),
+    });
+    //去除版权信息
+    viewer._cesiumWidget._creditContainer.style.display = "none";
+    viewer.camera.setView({
+        destination: Cesium.Cartesian3.fromDegrees(106.39169649, 29.80413929, 38270.3),
+        orientation: {
+            heading: Cesium.Math.toRadians(0),
+            pitch: Cesium.Math.toRadians(-90),
+            roll: Cesium.Math.toRadians(0)
+        }
+    });
+    let imageryProvider = new Cesium.UrlTemplateImageryProvider({
+        url: "https://webst02.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
+        layer: "tdtVecBasicLayer",
+        style: "default",
+        format: "image/png",
+        tileMatrixSetID: "GoogleMapsCompatible",
+    })
+    var _imageryProvider = viewer.imageryLayers.addImageryProvider(imageryProvider);
+    // 如果需要叠加高德/百度注记地图则添加以下代码
+    viewer.imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
+        url: "http://webst02.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scale=1&style=8",
+        layer: "tdtAnnoLayer",
+        style: "default",
+        format: "image/jpeg",
+        tileMatrixSetID: "GoogleMapsCompatible"
+    }));
+</script>
+<script src="js/pickPositionOnMap.js"></script>
+</body>
+
+</html>

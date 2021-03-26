@@ -2,12 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <title>Cesium坐标转换</title>
     <script src="./jquery-3.5.1.min.js"></script>
-<!--    <script src="./Cesium-1.78/Build/Cesium/Cesium.js"></script>-->
+    <!--    <script src="./Cesium-1.78/Build/Cesium/Cesium.js"></script>-->
     <script src="http://static.igali.xyz/cesium-1.7.4/Build/Cesium/Cesium.js"></script>
+    <style>
+        @import url(./css/index.css);
+    </style>
 </head>
 <body>
+<h1><a href="./example/pickPositionOnMap.html">鼠标拾取地图坐标</a></h1>
 <h1>Cesium坐标转换</h1>
 <form>
     <table>
@@ -31,13 +35,14 @@
         </tbody>
     </table>
 </form>
+<hr>
 <form>
     <table>
         <thead>
         <tr><h2>笛卡尔转经纬度</h2></tr>
-        <tr><h3>var cartographic = Cesium.Cartographic.fromCartesian(cartesian);</h3></tr>
-        <tr><h3>var lon = Cesium.Math.toDegrees(cartographic.longitude);</h3></tr>
-        <tr><h3>var lat = Cesium.Math.toDegrees(cartographic.latitude);</h3></tr>
+        <tr><h3>let cartographic = Cesium.Cartographic.fromCartesian(cartesian);</h3></tr>
+        <tr><h3>let lon = Cesium.Math.toDegrees(cartographic.longitude);</h3></tr>
+        <tr><h3>let lat = Cesium.Math.toDegrees(cartographic.latitude);</h3></tr>
         </thead>
         <tbody>
         <tr>
@@ -58,11 +63,12 @@
         </tbody>
     </table>
 </form>
+<hr>
 <form>
     <table>
         <thead>
         <tr><h2>经纬度转弧度</h2></tr>
-        <tr><h3>var cartographic = Cesium.Cartographic.fromCartesian(cartesian);</h3></tr>
+        <tr><h3>let cartographic = Cesium.Cartographic.fromCartesian(cartesian);</h3></tr>
         </thead>
         <tbody>
         <tr>
@@ -83,39 +89,71 @@
         </tbody>
     </table>
 </form>
+<hr>
+<form onsubmit="return false;" id="f4" data-status="D2L">
+    <table>
+        <thead>
+        <tr><h2>度分秒坐标转换</h2></tr>
+        </thead>
+        <tbody>
+        <tr id="D_f4">
+            <td>度分秒：<input id="degree_f4" class="small_input" onpaste="onPaste()"/>°<input id="minute_f4" class="small_input"/>′<input
+                    id="second_f4" class="small_input"/>″
+            </td>
+        </tr>
+        <tr id="L_f4">
+            <td>经纬度：<input id="lat_and_lon_f4"/></td>
+        </tr>
+        <tr>
+            <td>
+                <button id="convert_f4">转换</button>
+                <button id="switch_position_f4">交换位置</button>
+                <button id="clear_f4">清空</button>
+            </td>
+        </tr>
+        <tr>
+            <td>转换结果：<input id="result_f4" type="text" readonly><input id="copy_result_f4" type="button" value="复制结果"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<hr>
+<div class="footer"></div>
 <script>
+
     (function () {
         $("#btn1").click(function () {
-            var lon = $("#lon1").val();
-            var lat = $("#lat1").val();
-            if (!lon||!lat){
+            let lon = $("#lon1").val();
+            let lat = $("#lat1").val();
+            if (!lon || !lat) {
                 // alert("请输入坐标");
                 return;
             }
             lon = Number(lon);
             lat = Number(lat);
 
-            var cartesian = new Cesium.Cartesian3.fromDegrees(lon, lat);
+            let cartesian = new Cesium.Cartesian3.fromDegrees(lon, lat);
             $("#result1").text(cartesian);
         });
         $("#btn2").click(function () {
-            var x = $("#cartX").val();
-            var y = $("#cartY").val();
-            var z = $("#cartZ").val();
+            let x = $("#cartX").val();
+            let y = $("#cartY").val();
+            let z = $("#cartZ").val();
             if (!x || !y || !z) {
                 // alert("请输入坐标");
                 return;
             }
-            var cartographic = Cesium.Cartographic.fromCartesian(new Cesium.Cartesian3(x, y, z));
-            var lon = Cesium.Math.toDegrees(cartographic.longitude);
-            var lat = Cesium.Math.toDegrees(cartographic.latitude);
-            var elev = cartographic.height;
+            let cartographic = Cesium.Cartographic.fromCartesian(new Cesium.Cartesian3(x, y, z));
+            let lon = Cesium.Math.toDegrees(cartographic.longitude);
+            let lat = Cesium.Math.toDegrees(cartographic.latitude);
+            let elev = cartographic.height;
             $("#result2").text(lon + "," + lat + "," + elev);
         });
         $("#btn3").click(function () {
-            var lon3 = $("#lon3").val();
-            var lat3 = $("#lat3").val();
-            var hei3 = $("#height3").val();
+            let lon3 = $("#lon3").val();
+            let lat3 = $("#lat3").val();
+            let hei3 = $("#height3").val();
             if (!hei3) {
                 hei3 = 0;
             }
@@ -123,15 +161,113 @@
                 // alert("请输入坐标");
                 return;
             }
-            var cartesian3 = new Cesium.Cartesian3.fromDegrees(Number(lon3), Number(lat3), Number(hei3));
-            var cartographic3 = Cesium.Cartographic.fromCartesian(cartesian3);
-            var longitude3 = cartographic3.longitude;
-            var latitude3 = cartographic3.latitude;
-            var height3 = cartographic3.height;
+            let cartesian3 = new Cesium.Cartesian3.fromDegrees(Number(lon3), Number(lat3), Number(hei3));
+            let cartographic3 = Cesium.Cartographic.fromCartesian(cartesian3);
+            let longitude3 = cartographic3.longitude;
+            let latitude3 = cartographic3.latitude;
+            let height3 = cartographic3.height;
             $("#result3").text(longitude3 + "," + latitude3 + "," + height3);
+        });
+        $("#switch_position_f4").click(function () {
+            let D = $("#D_f4");
+            let L = $("#L_f4");
+            let data = $("#f4").data('status');
+            let html1, html2 = "";
+            let degree = $("#degree_f4").val();
+            let minute = $("#minute_f4").val();
+            let second = $("#second_f4").val();
+            let latAndLon = $("#lat_and_lon_f4").val();
+            if (data == "D2L") {
+                html1 = L.html();
+                html2 = D.html();
+                D.html(html1);
+                L.html(html2);
+                $("#f4").data('status', 'L2D')
+            } else {
+                html1 = D.html();
+                html2 = L.html();
+                L.html(html1);
+                D.html(html2);
+                $("#f4").data('status', 'D2L')
+            }
+            $("#lat_and_lon_f4").val(latAndLon);
+            $("#second_f4").val(second);
+            $("#minute_f4").val(minute);
+            $("#degree_f4").val(degree);
+        })
+        $("#clear_f4").click(function () {
+            $("#lat_and_lon_f4").val('');
+            $("#second_f4").val('');
+            $("#minute_f4").val('');
+            $("#degree_f4").val('');
+        })
+        $("#convert_f4").click(function () {
+            var data = $("#f4").data('status');
+            if (data == 'D2L') {
+                let degree = $("#degree_f4").val();
+                let minute = $("#minute_f4").val();
+                let second = $("#second_f4").val();
+                degree = Number(degree);
+                minute = Number(minute);
+                second = Number(second);
+                let latAndLon = degree + (minute / 60) + (second / 3600);
+                $("#lat_and_lon_f4").val(latAndLon);
+                $("#result_f4").val(latAndLon)
+            } else {
+                // 118.815033整数位不变取118(度),用0.815033*60=48.90198,取整数位48(分),0.90198*60=54.1188再取整数位54(秒),故转化为118度48分54秒.
+                let latAndLon = $("#lat_and_lon_f4").val();
+                if (latAndLon.split('.').length > 2) {
+                    alert("请输入正确的坐标")
+                }
+                try {
+                    let degree = latAndLon.split('.')[0];
+                    let minuteAndSecond = latAndLon.split('.')[1];
+                    degree = Number(degree);
+                    minuteAndSecond = Number("0." + minuteAndSecond);
+                    let minute = ((minuteAndSecond * 60) + '').split('.')[0];
+                    let secondTemp = ((minuteAndSecond * 60) + '').split('.')[1];
+                    secondTemp = Number('0.' + secondTemp);
+                    let second = secondTemp * 60;
+                    second = Number(second.toFixed(2));
+                    $("#degree_f4").val(degree);
+                    $("#minute_f4").val(minute);
+                    $("#second_f4").val(second);
+                    $("#result_f4").val(degree + "°" + minute + "′" + second + "″");
+                } catch (e) {
+                    console.log(e);
+                    alert('请输入正确的坐标')
+                }
+            }
+
+        })
+        $("#copy_result_f4").click(function () {
+            let copyBtn = document.getElementById('result_f4');
+            copyBtn.select();
+            document.execCommand("Copy");
         })
 
     })()
+    function onPaste(){
+        console.log(1)
+        $("#degree_f4").bind("input propertychange", function () {
+            let data = $("#degree_f4").val();
+            // console.log(data)
+            let d1 = data.indexOf('°');
+            let d2 = data.indexOf('′');
+            let d3 = data.indexOf('″');
+            if (d1 != -1 && d2 != -1 && d3 != -1) {
+                let degree = data.split('°')[0];
+                let minAndSec = data.split('°')[1];
+                let minute = minAndSec.split('′')[0];
+                let secondTemp = minAndSec.split('′')[1];
+                let second = secondTemp.split('″')[0];
+                console.log(minute)
+                $("#degree_f4").val(degree);
+                $("#minute_f4").val(minute);
+                $("#second_f4").val(second);
+            }
+        });
+    }
 </script>
 </body>
 </html>
