@@ -1,3 +1,4 @@
+
 var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
 handler.setInputAction(function (event) {
     var wp = event.position;
@@ -22,5 +23,23 @@ handler.setInputAction(function (event) {
         var carto = new Cesium.Cartographic.fromDegrees(lon, lat);　　//输入经纬度
         var h1 = viewer.scene.globe.getHeight(carto);
         console.log(h1)
+        // 获取点击位置坐标
+        var cartesian = viewer.scene.globe.pick(viewer.camera.getPickRay(wp), viewer.scene);
+        if (cartesian) {
+            // 调用弹窗方法
+            var popup = new Popup({
+                viewer: viewer,
+                geometry: cartesian,
+                lon: lon,
+                lat: lat,
+            })
+        }
     }
 }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+$("#autoCopy").click(function (){
+    Popup.prototype.isAutoCopy = false;
+    $('input[name="autoCopy"]:checked').each(function () {
+        Popup.prototype.isAutoCopy = true;
+    })
+})

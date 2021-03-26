@@ -13,13 +13,21 @@
     <script type="text/javascript" src="http://static.igali.xyz/cesium-1.7.4/Build/Cesium/Cesium.js"></script>
     <script type="text/javascript"
             src="http://static.igali.xyz/cesium-1.7.4/Apps/Sandcastle/Sandcastle-header.js"></script>
+<style>
+    @import "../css/popup.css";
+    @import "../css/pickPositionOnMap.css";
+</style>
+    <script src="../jquery-3.5.1.min.js"></script>
 </head>
 
 <body class="sandcastle-loading" data-sandcastle-bucket="bucket-requirejs.html">
-<style>
-</style>
 <div id="cesiumContainer" class="fullSize"></div>
-<div id="toolbar"></div>
+<div id="toolbar">
+    <div>
+        <input type="checkbox" name="autoCopy" id="autoCopy" checked/>自动复制
+    </div>
+</div>
+<script src="js/customAlert.js"></script>
 <script id="cesium_sandcastle_script">
     Cesium.Ion.defaultAccessToken =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YWJlYzNkNS0yY2M0LTQxZWQtOGZhNi05MjEzYmVmZGVkNTkiLCJpZCI6MzU1NTEsImlhdCI6MTYwNDYyNzY2NH0.JxhQQxEvJTrmeARILcywKaPoPEPjO1RlqL28CRjktx8';
@@ -51,6 +59,34 @@
             roll: Cesium.Math.toRadians(0)
         }
     });
+    // let matrixIds = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18',
+    //     '19', '20'
+    // ];
+    // var imageryProvider = new Cesium.WebMapTileServiceImageryProvider({
+    //     url: "http://222.178.182.14:9010/wmts",
+    //     tilingScheme: new Cesium.GeographicTilingScheme(),
+    //     format: "image/jpeg",
+    //     style: "default",
+    //     layer: "img",
+    //     tileMatrixSetID: "c",
+    //     tileMatrixLabels: matrixIds,
+    //     maximumLevel: 20,
+    // });
+    // var roadProvider = new Cesium.WebMapTileServiceImageryProvider({
+    //     url: "http://222.178.182.14:9010/wmts",
+    //     tilingScheme: new Cesium.GeographicTilingScheme(),
+    //     format: "image/png",
+    //     style: "default",
+    //     layer: "cva",
+    //     tileMatrixSetID: "c",
+    //     tileMatrixLabels: matrixIds,
+    //     maximumLevel: 20,
+    // });
+    // var _imageryProvider = viewer.imageryLayers.addImageryProvider(imageryProvider);
+    // _imageryProvider.name = "卫星图";
+    // var _roadProvider = viewer.imageryLayers.addImageryProvider(roadProvider);
+    // _roadProvider.name = "街道图"
+
     let imageryProvider = new Cesium.UrlTemplateImageryProvider({
         url: "https://webst02.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
         layer: "tdtVecBasicLayer",
@@ -68,7 +104,12 @@
         tileMatrixSetID: "GoogleMapsCompatible"
     }));
 </script>
+<script src="js/popup.js"></script>
 <script src="js/pickPositionOnMap.js"></script>
+<script>
+    var cusAlert = new customAlert();
+    // cusAlert.alert();
+</script>
 </body>
 
 </html>
