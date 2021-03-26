@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
+    <title>鼠标拾取地图经纬度坐标</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
@@ -17,7 +18,6 @@
     @import "../css/popup.css";
     @import "../css/pickPositionOnMap.css";
 </style>
-    <script src="../jquery-3.5.1.min.js"></script>
 </head>
 
 <body class="sandcastle-loading" data-sandcastle-bucket="bucket-requirejs.html">
@@ -27,7 +27,7 @@
         <input type="checkbox" name="autoCopy" id="autoCopy" checked/>自动复制
     </div>
 </div>
-<script src="js/customAlert.js"></script>
+<script src="../example/js/customAlert.js"></script>
 <script id="cesium_sandcastle_script">
     Cesium.Ion.defaultAccessToken =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YWJlYzNkNS0yY2M0LTQxZWQtOGZhNi05MjEzYmVmZGVkNTkiLCJpZCI6MzU1NTEsImlhdCI6MTYwNDYyNzY2NH0.JxhQQxEvJTrmeARILcywKaPoPEPjO1RlqL28CRjktx8';
@@ -104,8 +104,8 @@
         tileMatrixSetID: "GoogleMapsCompatible"
     }));
 </script>
-<script src="js/popup.js"></script>
-<script src="js/pickPositionOnMap.js"></script>
+<script src="../example/js/popup.js"></script>
+<script src="../example/js/pickPositionOnMap.js"></script>
 <script>
     var cusAlert = new customAlert();
     // cusAlert.alert();
