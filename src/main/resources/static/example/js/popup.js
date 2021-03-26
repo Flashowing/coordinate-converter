@@ -37,9 +37,13 @@ Popup.prototype.constructor = function (info) {
 // 实时刷新
 Popup.prototype.render = function (geometry) {
     var _this = this;
-    var position = Cesium.SceneTransforms.wgs84ToWindowCoordinates(_this.viewer.scene, geometry)
-    _this.ctn.css("left", position.x - _this.ctn.get(0).offsetWidth / 2);
-    _this.ctn.css("top", position.y - _this.ctn.get(0).offsetHeight - 10);
+    try {
+        var position = Cesium.SceneTransforms.wgs84ToWindowCoordinates(_this.viewer.scene, geometry)
+        _this.ctn.css("left", position.x - _this.ctn.get(0).offsetWidth / 2);
+        _this.ctn.css("top", position.y - _this.ctn.get(0).offsetHeight - 10);
+    } catch (e) {
+        console.log(e)
+    }
 }
 // 动态生成内容
 Popup.prototype.createHtml = function (header, content) {
